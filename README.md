@@ -50,7 +50,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 ---
 
 ## セットアップ
-
+```
 src/
 ├── app/
 │   ├── api/
@@ -68,10 +68,12 @@ src/
 │   └── page.tsx                   # 投稿一覧ページ
 ├── components/
 │   ├── ui/                        # shadcn/ui コンポーネント群
-│   └── DeleteButton.tsx            # 削除ボタンモーダルコンポーネント
+│   └── DeleteButton.tsx           # 削除ボタンモーダルコンポーネント
 └── lib/
-    └── microcms.ts                 # microCMS 通信共通処理
+    └── microcms.ts                # microCMS 通信共通処理
 
 .env.local
 next.config.js
 package.json
+
+```
