@@ -49,7 +49,7 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
 ---
 
-## セットアップ
+## プロジェクト構成
 ```
 src/
 ├── app/
