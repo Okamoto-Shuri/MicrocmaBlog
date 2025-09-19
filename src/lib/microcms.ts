@@ -1,11 +1,5 @@
-// src/lib/microcms.ts
+// src/lib/microcms.ts (修正版)
 const SERVICE_DOMAIN = process.env.MICROCMS_SERVICE_DOMAIN || "blog-with-micro";
-const API_KEY = process.env.MICROCMS_API_KEY;
-
-if (!API_KEY) {
-    throw new Error("MICROCMS_API_KEY is not set. Please add it to .env.local");
-}
-
 const BASE_URL = `https://${SERVICE_DOMAIN}.microcms.io/api/v1`;
 
 // 型定義
@@ -33,27 +27,38 @@ type ListResponse<T> = {
     limit?: number;
 };
 
-// 共通リクエスト関数
+// APIキー取得ユーティリティ（呼び出し時にチェック）
+function getApiKey(): string {
+    const key = process.env.MICROCMS_API_KEY;
+    if (!key) {
+        // 実行時にわかりやすく例外を投げる（トップレベルでは投げない）
+        throw new Error(
+        "MICROCMS_API_KEY is not set. Add MICROCMS_API_KEY to your environment variables."
+        );
+    }
+    return key;
+}
+
 async function microcmsRequest<T>(
     path: string,
     init: Omit<RequestInit, "body"> & { body?: unknown } = {}
 ): Promise<T> {
     const url = `${BASE_URL}${path}`;
+
     const headers: Record<string, string> = {
-        "X-API-KEY": API_KEY!,
+        "X-API-KEY": getApiKey(), // ここでようやくキーを参照
         ...(init.headers as Record<string, string> ?? {}),
     };
 
-    // body の処理
     let body: BodyInit | undefined;
     if (init.body !== undefined) {
         if (init.body instanceof FormData) {
-            body = init.body;
+        body = init.body;
         } else if (typeof init.body === "object") {
-            headers["Content-Type"] = "application/json";
-            body = JSON.stringify(init.body);
+        headers["Content-Type"] = "application/json";
+        body = JSON.stringify(init.body);
         } else if (typeof init.body === "string") {
-            body = init.body;
+        body = init.body;
         }
     }
 
@@ -70,8 +75,8 @@ async function microcmsRequest<T>(
         throw new Error(`microCMS request failed: ${res.status} ${res.statusText} - ${text}`);
     }
 
-    // DELETE は JSON を返さないので undefined
-    if (init.method === "DELETE") {
+    // DELETE は多くの microCMS 設定で本文を返さないため、method が DELETE の場合は undefined を返す
+    if ((init.method ?? "GET").toUpperCase() === "DELETE") {
         return undefined as T;
     }
 
@@ -114,7 +119,6 @@ export async function deleteBlog(id: string): Promise<void> {
     });
 }
 
-// 名前付き export default
 const microcmsClient = {
     getBlogs,
     getBlog,
