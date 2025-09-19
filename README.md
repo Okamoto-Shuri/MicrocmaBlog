@@ -51,4 +51,27 @@ NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
 ## セットアップ
 
-<pre> src/ ├ app/ │ ├ api/ │ │ ├ blog/ │ │ │ └ route.ts ← 投稿一覧取得／新規作成 │ │ └ [id]/ │ │ └ route.ts ← 投稿詳細取得／編集／削除 │ ├ blog/ │ │ ├ new/ │ │ │ └ page.tsx ← 新規投稿ページ（クライアントコンポーネント） │ │ ├ [id]/ │ │ │ ├ page.tsx ← 詳細ページ（サーバーコンポーネント） │ │ │ └ edit/ │ │ │ └ page.tsx ← 編集ページ（クライアントコンポーネント） │ └ page.tsx ← 投稿一覧ページ ├ components/ │ ├ ui/ ← shadcn/ui コンポーネント群 │ └ DeleteButton.tsx ← 削除ボタンモーダルコンポーネント └ lib/ microcms.ts ← microCMS 通信共通処理 .env.local next.config.js package.json </pre>
+src/
+├── app/
+│   ├── api/
+│   │   ├── blog/
+│   │   │   └── route.ts           # 投稿一覧取得／新規作成
+│   │   └── [id]/
+│   │       └── route.ts           # 投稿詳細取得／編集／削除
+│   ├── blog/
+│   │   ├── new/
+│   │   │   └── page.tsx           # 新規投稿ページ（クライアントコンポーネント）
+│   │   ├── [id]/
+│   │   │   ├── page.tsx           # 詳細ページ（サーバーコンポーネント）
+│   │   │   └── edit/
+│   │   │       └── page.tsx       # 編集ページ（クライアントコンポーネント）
+│   └── page.tsx                   # 投稿一覧ページ
+├── components/
+│   ├── ui/                        # shadcn/ui コンポーネント群
+│   └── DeleteButton.tsx            # 削除ボタンモーダルコンポーネント
+└── lib/
+    └── microcms.ts                 # microCMS 通信共通処理
+
+.env.local
+next.config.js
+package.json
